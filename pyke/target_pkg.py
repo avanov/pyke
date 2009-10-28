@@ -58,7 +58,7 @@ class target_pkg(object):
 
             module_name:  the complete dotted name of the compiled_pyke_files
                           module for this object.
-            filename:     the absolute path to the compiled_pyke_files.py/c
+            filename:     the absolute path to the compiled_pyke_files.py/c/o
                           file.
             pyke_version: the version of pyke used to compile the target files.
             loader:       the __loader__ attribute of the compiled_pyke_files
@@ -86,7 +86,10 @@ class target_pkg(object):
         knowledge_engine.engine._init_path.
         '''
         self.package_name = os.path.splitext(module_name)[0]
-        self.filename = filename
+        if filename.endswith('.py'):
+            self.filename = filename
+        else:
+            self.filename = filename[:-1]
         self.directory = os.path.dirname(self.filename)
         if debug:
             print >> sys.stderr, "target_pkg:", self.package_name, self.filename
@@ -102,7 +105,7 @@ class target_pkg(object):
             # loading incorrect version from zip file
             raise AssertionError("%s: wrong version of pyke, "
                                  "running %s, compiled for %s" % 
-                                 (pyke.version, pyke_version))
+                                 (module_name, pyke.version, pyke_version))
 
     def reset(self):
         ''' This should be called once by engine.__init__ prior to calling
