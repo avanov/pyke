@@ -43,7 +43,7 @@ import sys
 import itertools
 from pyke import qa_helpers
 
-encoding = 'UTF-8'
+encoding = None         # probably not needed with Python3.x...
 
 # The answer has been converted to lowercase before these matches:
 yes_match = ('y', 'yes', 't', 'true')
@@ -101,13 +101,11 @@ def get_answer(question, match_prompt, conv_fn=None, test=None, review=None):
                 return True
             except ValueError:
                 return False
-
         def matches(ans, test):
             if isinstance(ans, (tuple, list)):
                 return any(itertools.imap(lambda elem: matches2(elem, test),
                                           ans))
             return matches2(ans, test)
-
         for review_test, review_str in review:
             if matches(ans, review_test):
                 print review_str
@@ -178,7 +176,7 @@ def ask_string(question, match=None, review=None):
         >>> sys.stdin = StringIO('yes\n')
         >>> ask_string(u'enter string?')
         ______________________________________________________________________________
-        enter string? u'yes'
+        enter string? 'yes'
     '''
     return get_answer(question, qa_helpers.match_prompt(match, str, u"[%s]",
                                                         u''),
@@ -236,3 +234,9 @@ def ask_select_n(question, alternatives, review=None):
                          review=review)
     return tuple(alternatives[i-1][0] for i in i_tuple)
 
+def test():
+    import doctest
+    sys.exit(doctest.testmod()[0])
+
+if __name__ == "__main__":
+    test()

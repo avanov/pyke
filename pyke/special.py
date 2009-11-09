@@ -30,12 +30,10 @@ from pyke import knowledge_base, rule_base
 class special_knowledge_base(knowledge_base.knowledge_base):
     def __init__(self, engine):
         super(special_knowledge_base, self).__init__(engine, 'special')
-
     def add_fn(self, fn):
         if fn.name in self.entity_lists:
             raise KeyError("%s.%s already exists" % (self.name, fn.name))
         self.entity_lists[fn.name] = fn
-
     def print_stats(self, f):
         pass
 
@@ -43,11 +41,9 @@ class special_fn(knowledge_base.knowledge_entity_list):
     def __init__(self, special_base, name):
         super(special_fn, self).__init__(name)
         special_base.add_fn(self)
-
     def lookup(self, bindings, pat_context, patterns):
         raise AssertionError("special.%s may not be used in forward chaining "
                              "rules" % self.name)
-
     def prove(self, bindings, pat_context, patterns):
         raise AssertionError("special.%s may not be used in backward chaining "
                              "rules" % self.name)
@@ -67,7 +63,7 @@ class claim_goal(special_fn):
         >>> gen.next()
         Traceback (most recent call last):
             ...
-        StopProof
+        pyke.rule_base.StopProof
         >>> mgr.__exit__(None, None, None)
         >>> cg.lookup(None, None, None)
         Traceback (most recent call last):
@@ -76,12 +72,10 @@ class claim_goal(special_fn):
     '''
     def __init__(self, special_base):
         super(claim_goal, self).__init__(special_base, 'claim_goal')
-
     def prove(self, bindings, pat_context, patterns):
         def gen():
             yield
             raise rule_base.StopProof
-
         return contextlib.closing(gen())
 
 def run_cmd(pat_context, cmd_pat, cwd_pat=None, stdin_pat=None):
@@ -104,8 +98,11 @@ def run_cmd(pat_context, cmd_pat, cwd_pat=None, stdin_pat=None):
         ...         pattern.pattern_literal('/home/bruce'))
         (0, '/home/bruce\n', '')
     '''
-    stdin = None if stdin_pat is None \
-                 else stdin_pat.as_data(pat_context)
+    stdin = None
+    if stdin_pat is not None:
+        data = stdin_pat.as_data(pat_context)
+        if data is not None:
+            stdin = data.encode()
     process = subprocess.Popen(cmd_pat.as_data(pat_context),
                                bufsize=-1,
                                universal_newlines=True,
@@ -155,7 +152,6 @@ class check_command(special_both):
     '''
     def __init__(self, special_base):
         super(check_command, self).__init__(special_base, 'check_command')
-
     def lookup(self, bindings, pat_context, patterns):
         if len(patterns) < 1: return knowledge_base.Gen_empty
         retcode, out, err = run_cmd(pat_context, patterns[0],
@@ -204,7 +200,6 @@ class command(special_both):
     '''
     def __init__(self, special_base):
         super(command, self).__init__(special_base, 'command')
-
     def lookup(self, bindings, pat_context, patterns):
         if len(patterns) < 2: return knowledge_base.Gen_empty
         retcode, out, err = run_cmd(pat_context, patterns[1],
@@ -227,7 +222,6 @@ class command(special_both):
                     bindings.end_save_all_undo()
             finally:
                 bindings.undo_to_mark(mark)
-
         return contextlib.closing(gen())
 
 class general_command(special_both):
@@ -254,13 +248,11 @@ class general_command(special_both):
     '''
     def __init__(self, special_base):
         super(general_command, self).__init__(special_base, 'general_command')
-
     def lookup(self, bindings, pat_context, patterns):
         if len(patterns) < 2: return knowledge_base.Gen_empty
         ans = run_cmd(pat_context, patterns[1],
                       patterns[2] if len(patterns) > 2 else None,
                       patterns[3] if len(patterns) > 3 else None)
-
         def gen():
             mark = bindings.mark(True)
             try:
@@ -271,7 +263,6 @@ class general_command(special_both):
                     bindings.end_save_all_undo()
             finally:
                 bindings.undo_to_mark(mark)
-
         return contextlib.closing(gen())
 
 def create_for(engine):
@@ -281,3 +272,10 @@ def create_for(engine):
     command(special_base)
     general_command(special_base)
 
+def test():
+    import doctest
+    import sys
+    sys.exit(doctest.testmod()[0])
+
+if __name__ == "__main__":
+    test()

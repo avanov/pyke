@@ -180,12 +180,12 @@ output from the command to stdout or stderr is unavailable.
 
     >>> from pyke import knowledge_engine
     >>> engine = knowledge_engine.engine()
-    >>> engine.prove_1_goal('special.check_command((true))')
-    ({}, None)
-    >>> engine.prove_1_goal('special.check_command((false))')
+    >>> engine.prove_1('special', 'check_command', (('true',),), 0)
+    ((), None)
+    >>> engine.prove_1('special', 'check_command', (('false',),), 0)
     Traceback (most recent call last):
         ...
-    CanNotProve: Can not prove special.check_command((false))
+    pyke.knowledge_engine.CanNotProve: Can not prove special.check_command((false))
 
 Command
 -------
@@ -205,14 +205,16 @@ exit status.
     >>> from __future__ import with_statement
     >>> from pyke import pattern, contexts
     >>> def run_command(entity, command, cwd=None, stdin=None):
-    ...     with engine.prove_goal(
-    ...            'special.%s($output, $command, $cwd, $stdin)' % entity,
-    ...            command=command,
-    ...            cwd=cwd,
-    ...            stdin=stdin) \
+    ...     my_context = contexts.simple_context()
+    ...     output = contexts.variable('output')
+    ...     with engine.prove('special', entity, my_context,
+    ...                       (output,
+    ...                        pattern.pattern_literal(command),
+    ...                        pattern.pattern_literal(cwd),
+    ...                        pattern.pattern_literal(stdin))) \
     ...       as gen:
-    ...         for vars, no_plan in gen:
-    ...             print vars['output']
+    ...         for no_plan in gen:
+    ...             print(output.as_data(my_context))
     >>> run_command('command', ('echo', 'hi', 'mom'))
     ('hi mom',)
     >>> run_command('command', ('ls',))   # doctest: +NORMALIZE_WHITESPACE
@@ -238,7 +240,7 @@ exit status.
     >>> run_command('command', ('false',))
     Traceback (most recent call last):
         ...
-    CalledProcessError: Command 'false' returned non-zero exit status 1
+    subprocess.CalledProcessError: Command 'false' returned non-zero exit status 1
 
 General_command
 ---------------

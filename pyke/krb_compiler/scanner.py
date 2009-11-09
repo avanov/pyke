@@ -32,7 +32,6 @@ from pyke.krb_compiler.ply import lex
 debug=0
 
 kfb_mode = False
-goal_mode = False
 
 states = (
     ('indent', 'exclusive'),
@@ -316,28 +315,28 @@ def t_code_NL_TOK(t):
 # strings:
 def t_tsqstring(t):
     r"[uU]?[rR]?'''([^\\]|\\.)*?'''"
-    #t.value = unescape(t.value[3:-3])
+    #t.value = unquote(t.value[3:-3])
     t.type = 'STRING_TOK'
     t.lexer.lineno += t.value.count('\n')
     return t
 
 def t_tdqstring(t):
     r'[uU]?[rR]?"""([^\\]|\\.)*?"""'
-    #t.value = unescape(t.value[3:-3])
+    #t.value = unquote(t.value[3:-3])
     t.type = 'STRING_TOK'
     t.lexer.lineno += t.value.count('\n')
     return t
 
 def t_sqstring(t):
     r"[uU]?[rR]?'([^'\\\n\r]|\\.|\\(\r)?\n)*?'"
-    #t.value = unescape(t.value[1:-1])
+    #t.value = unquote(t.value[1:-1])
     t.lexer.lineno += t.value.count('\n')
     t.type = 'STRING_TOK'
     return t
 
 def t_dqstring(t):
     r'[uU]?[rR]?"([^"\\\n\r]|\\.|\\(\r)?\n)*?"'
-    #t.value = unescape(t.value[1:-1])
+    #t.value = unquote(t.value[1:-1])
     t.type = 'STRING_TOK'
     t.lexer.lineno += t.value.count('\n')
     return t
@@ -346,19 +345,13 @@ def t_dqstring(t):
 def t_ANONYMOUS_VAR_TOK(t):
     r'\$_([a-zA-Z_][a-zA-Z0-9_]*)?'
     if kfb_mode: t_ANY_error(t)
-    if goal_mode:
-        t.value = t.value[1:]
-    else:
-        t.value = "'" + t.value[1:] + "'"
+    t.value = "'" + t.value[1:] + "'"
     return t
 
 def t_PATTERN_VAR_TOK(t):
     r'\$[a-zA-Z][a-zA-Z0-9_]*'
     if kfb_mode: t_ANY_error(t)
-    if goal_mode:
-        t.value = t.value[1:]
-    else:
-        t.value = "'" + t.value[1:] + "'"
+    t.value = "'" + t.value[1:] + "'"
     return t
 
 def t_IDENTIFIER_TOK(t):
@@ -488,7 +481,7 @@ escapes = {
     '\"': '\"',
 }
 
-def unescape(s):
+def unquote(s):
     start = 0
     ans = []
     i = s.find('\\', start)
@@ -594,12 +587,12 @@ def tokenize_file(filename = 'TEST/scan_test'):
         LexToken(NUMBER_TOK,0,8,124)
         LexToken(RP_TOK,')',8,125)
         LexToken(NL_TOK,'\n',8,126)
-        LexToken(NUMBER_TOK,3.1400000000000001,9,129)
-        LexToken(NUMBER_TOK,0.98999999999999999,9,134)
+        LexToken(NUMBER_TOK,3.14,9,129)
+        LexToken(NUMBER_TOK,0.99,9,134)
         LexToken(NUMBER_TOK,3.0,10,143)
-        LexToken(NUMBER_TOK,0.29999999999999999,10,146)
+        LexToken(NUMBER_TOK,0.3,10,146)
         LexToken(NUMBER_TOK,3000000.0,10,149)
-        LexToken(NUMBER_TOK,3.0000000000000001e-06,10,153)
+        LexToken(NUMBER_TOK,3e-06,10,153)
         LexToken(NL_TOK,'\n',10,158)
         LexToken(DEINDENT_TOK,'\n    ',11,158)
         LexToken(ASSERT_TOK,'assert',11,163)
@@ -631,27 +624,21 @@ def syntaxerror_params(pos = None, lineno = None):
         argument to SyntaxError exceptions.
     '''
     if pos is None: pos = lexer.lexpos
-    if pos > len(lexer.lexdata): pos = len(lexer.lexdata)
-    end = pos
+    start = pos
     if lineno is None: lineno = lexer.lineno
-    while end > 0 and (end >= len(lexer.lexdata) or
-                       lexer.lexdata[end] in '\r\n'):
-        end -= 1
-    start = end
-    if debug: print "pos", pos, "lineno", lineno, "end", end
-    start = max(lexer.lexdata.rfind('\r', 0, end),
-                lexer.lexdata.rfind('\n', 0, end)) + 1
+    while start > 0 and (start >= len(lexer.lexdata) or
+                         lexer.lexdata[start] in '\r\n'):
+        start -= 1
+    end = start
+    if debug: print "pos", pos, "lineno", lineno, "start", start
+    start = max(lexer.lexdata.rfind('\r', 0, start),
+                lexer.lexdata.rfind('\n', 0, start)) + 1
     column = pos - start + 1
     end1 = lexer.lexdata.find('\r', end)
     end2 = lexer.lexdata.find('\n', end)
-    if end1 < 0:
-        if end2 < 0: end = len(lexer.lexdata)
-        else: end = end2
+    if end1 < 0: end = end2
     elif end2 < 0: end = end1
     else: end = min(end1, end2)
-    if goal_mode and start == 0 and lexer.lexdata.startswith('check ', start):
-        start += 6
-        column -= 6
     if debug: print "start", start, "column", column, "end", end
     return (lexer.filename, lineno, column, lexer.lexdata[start:end])
 
@@ -688,3 +675,10 @@ def init(this_module, debug_param, check_tables = False, kfb = False):
                             lextab='pyke.krb_compiler.scanner_tables',
                             outputdir=os.path.dirname(this_module.__file__))
 
+def test():
+    import doctest
+    import sys
+    sys.exit(doctest.testmod()[0])
+
+if __name__ == "__main__":
+    test()

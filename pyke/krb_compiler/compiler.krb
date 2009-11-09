@@ -271,7 +271,9 @@ fc_forall_require
                     $fn_head1,
                     "forall%d_worked = False" % $start_lineno,
                     $fn_head2,
+                    ('INDENT', 2),
                     "forall%d_worked = True" % $start_lineno,
+                    'POPINDENT',
                     $fn_tail2,
                     $fn_tail1,
                     "if forall%d_worked:" % $start_lineno,
@@ -531,7 +533,9 @@ bc_forall_require
                     $fn_head1,
                     "forall%d_worked = False" % $start_lineno,
                     $fn_head2,
+                    #('INDENT', 2),
                     "forall%d_worked = True" % $start_lineno,
+                    #'POPINDENT',
                     $fn_tail2,
                     $fn_tail1,
                     "if forall%d_worked:" % $start_lineno,
@@ -756,4 +760,5 @@ python_block
                        ())
     
 bc_extras
+    import itertools
     from pyke.krb_compiler import helpers

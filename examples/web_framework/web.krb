@@ -191,7 +191,7 @@ render_element1_rep
 
 bc_extras
     import sys
-    import StringIO
+    import io
     import HTMLTemplate
 
     def renderFun(template, render_fn, data):
@@ -209,7 +209,7 @@ bc_extras
         try:
             # This was stdout in earlier releases of HTMLTemplate!
             stderr_save = sys.stderr
-            sys.stderr = StringIO.StringIO()
+            sys.stderr = io.StringIO()
             template.structure()
             lines = sys.stderr.getvalue().split('\n')
         finally:
@@ -233,6 +233,6 @@ bc_extras
                 else:
                     ans.append(tuple(line.strip().split(':')))
             start += 1
-        #print "get_info -> %d, %s" % (start, tuple(ans))
+        #print("get_info -> %d, %s" % (start, tuple(ans)))
         return start, tuple(ans)
 
