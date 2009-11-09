@@ -99,7 +99,7 @@ things:
    +================================+==================+==================+
    | run the web_framework example  | HTMLTemplate_    | 1.5              |
    +--------------------------------+------------------+------------------+
-   | run the unit tests             | `doctest-tools`_ | 1.0a3            |
+   | run the unit tests             | `doctest-tools`_ | 1.0a2            |
    +--------------------------------+------------------+------------------+
    | rebuild the html documentation | rest2web_        | 0.5              |
    +                                +------------------+------------------+
@@ -111,9 +111,9 @@ there is probably a package for it in the package index for your Linux
 distribution.
 
 All of the other packages can be installed as the administrator using
-pip_ or easy_install_.  For example::
+easy_install_.  For example::
 
-    # pip install HTMLTemplate
+    # easy_install HTMLTemplate
 
 
 Installation
@@ -144,16 +144,16 @@ example is in it's own subdirectory under the ``examples`` subdirectory, and
 each has it's own README.txt file that explains how to run it.
 
 The web_framework example requires the HTMLTemplate_ package, version 1.5 or
-later.  This can be installed as administrator with pip or easy_install::
+later.  This can be installed as administrator with easy_install::
 
-    # pip install HTMLTemplate
+    # easy_install HTMLTemplate
 
 See also Examples_.
 
 Viewing the HTML Documentation
 ==============================
 
-This HTML documentation may be viewed directly from your hard drive.  The HTML
+This HTML documentation may be viewed directly from you hard drive.  The HTML
 files are in the ``doc/html`` directory.  Start with ``doc/html/index.html``.
 
 
@@ -165,7 +165,7 @@ You'll see the following directories.
 * ``doc``
 
   - the ``html`` directory has all of the HTML documentation ready to browse
-    off of your hard drive.  Start with doc/html/index.html.
+    off your hard drive.  Start with doc/html/index.html.
   - the ``source`` directory has all of the sources that were used to
     generated the HTML documentation.  See `Rebuilding the HTML Documentation`_.
   - the ``examples`` directory just has a copy of the examples used by the
