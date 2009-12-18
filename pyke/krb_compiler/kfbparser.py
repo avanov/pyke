@@ -33,20 +33,18 @@ from pyke import fact_base
 tokens = scanner.kfb_tokens
 
 def p_file(p):
-    ''' file : nl_opt facts_opt
-        facts_opt :
-        facts_opt : facts nl_opt
-        facts : fact
-        facts : facts NL_TOK fact
+    ''' file : nl_opt facts
+        facts :
+        facts : facts fact
     '''
     pass
 
 def p_fact0(p):
-    ''' fact : IDENTIFIER_TOK LP_TOK RP_TOK '''
+    ''' fact : IDENTIFIER_TOK LP_TOK RP_TOK NL_TOK '''
     Fact_base.add_universal_fact(p[1], ())
 
 def p_fact1(p):
-    ''' fact : IDENTIFIER_TOK LP_TOK data_list RP_TOK '''
+    ''' fact : IDENTIFIER_TOK LP_TOK data_list RP_TOK NL_TOK '''
     Fact_base.add_universal_fact(p[1], tuple(p[3]))
 
 def p_none(p):
@@ -155,7 +153,8 @@ def parse(this_module, filename, check_tables = False, debug = 0):
     '''
     global Fact_base
     init(this_module, check_tables, debug)
-    name = os.path.basename(filename)[:-4]
+    dirs, base = os.path.split(filename)
+    name = base[:-4]
     Fact_base = fact_base.fact_base(None, name, False)
     with open(filename) as f:
         scanner.init(scanner, debug, check_tables, True)
@@ -167,3 +166,11 @@ def parse(this_module, filename, check_tables = False, debug = 0):
     Fact_base = None
     return ans
 
+
+def test():
+    import doctest
+    import sys
+    sys.exit(doctest.testmod()[0])
+
+if __name__ == "__main__":
+    test()

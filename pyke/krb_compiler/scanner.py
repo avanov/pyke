@@ -32,7 +32,6 @@ from pyke.krb_compiler.ply import lex
 debug=0
 
 kfb_mode = False
-goal_mode = False
 
 states = (
     ('indent', 'exclusive'),
@@ -316,28 +315,28 @@ def t_code_NL_TOK(t):
 # strings:
 def t_tsqstring(t):
     r"[uU]?[rR]?'''([^\\]|\\.)*?'''"
-    #t.value = unescape(t.value[3:-3])
+    #t.value = unquote(t.value[3:-3])
     t.type = 'STRING_TOK'
     t.lexer.lineno += t.value.count('\n')
     return t
 
 def t_tdqstring(t):
     r'[uU]?[rR]?"""([^\\]|\\.)*?"""'
-    #t.value = unescape(t.value[3:-3])
+    #t.value = unquote(t.value[3:-3])
     t.type = 'STRING_TOK'
     t.lexer.lineno += t.value.count('\n')
     return t
 
 def t_sqstring(t):
     r"[uU]?[rR]?'([^'\\\n\r]|\\.|\\(\r)?\n)*?'"
-    #t.value = unescape(t.value[1:-1])
+    #t.value = unquote(t.value[1:-1])
     t.lexer.lineno += t.value.count('\n')
     t.type = 'STRING_TOK'
     return t
 
 def t_dqstring(t):
     r'[uU]?[rR]?"([^"\\\n\r]|\\.|\\(\r)?\n)*?"'
-    #t.value = unescape(t.value[1:-1])
+    #t.value = unquote(t.value[1:-1])
     t.type = 'STRING_TOK'
     t.lexer.lineno += t.value.count('\n')
     return t
@@ -346,19 +345,13 @@ def t_dqstring(t):
 def t_ANONYMOUS_VAR_TOK(t):
     r'\$_([a-zA-Z_][a-zA-Z0-9_]*)?'
     if kfb_mode: t_ANY_error(t)
-    if goal_mode:
-        t.value = t.value[1:]
-    else:
-        t.value = "'" + t.value[1:] + "'"
+    t.value = "'" + t.value[1:] + "'"
     return t
 
 def t_PATTERN_VAR_TOK(t):
     r'\$[a-zA-Z][a-zA-Z0-9_]*'
     if kfb_mode: t_ANY_error(t)
-    if goal_mode:
-        t.value = t.value[1:]
-    else:
-        t.value = "'" + t.value[1:] + "'"
+    t.value = "'" + t.value[1:] + "'"
     return t
 
 def t_IDENTIFIER_TOK(t):
@@ -488,7 +481,7 @@ escapes = {
     '\"': '\"',
 }
 
-def unescape(s):
+def unquote(s):
     start = 0
     ans = []
     i = s.find('\\', start)
@@ -649,9 +642,6 @@ def syntaxerror_params(pos = None, lineno = None):
         else: end = end2
     elif end2 < 0: end = end1
     else: end = min(end1, end2)
-    if goal_mode and start == 0 and lexer.lexdata.startswith('check ', start):
-        start += 6
-        column -= 6
     if debug: print "start", start, "column", column, "end", end
     return (lexer.filename, lineno, column, lexer.lexdata[start:end])
 
@@ -688,3 +678,10 @@ def init(this_module, debug_param, check_tables = False, kfb = False):
                             lextab='pyke.krb_compiler.scanner_tables',
                             outputdir=os.path.dirname(this_module.__file__))
 
+def test():
+    import doctest
+    import sys
+    sys.exit(doctest.testmod()[0])
+
+if __name__ == "__main__":
+    test()
