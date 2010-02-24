@@ -24,7 +24,6 @@
 import sys
 import os, os.path
 from pyke import knowledge_engine, krb_traceback
-import sqlgen
 
 # Possibly interesting values:
 #     CONTENT_LENGTH:
@@ -53,7 +52,8 @@ class trace_cursor(object):
 
 def init(db_connection, trace_sql=False):
     global Engine, Db_connection, Db_cursor
-    Engine = knowledge_engine.engine(sqlgen, __file__)
+    Engine = knowledge_engine.engine('examples.sqlgen',
+                                     'examples.web_framework')
     Db_connection = db_connection
     Db_cursor = db_connection.cursor()
     if trace_sql: Db_cursor = trace_cursor(Db_cursor)
@@ -119,7 +119,7 @@ def gen_plan(environ, starting_tables, template_name):
 
     try:
         no_vars, plan = \
-            Engine.prove_1_goal('web.process($starting_tables, $template_name)',
+            Engine.prove_1_goal('web.process(%starting_tables, %template_name)',
                                 starting_tables=starting_tables,
                                 template_name=template_name)
     except:
@@ -160,3 +160,9 @@ def wsgi_app(environ, start_response):
     start_response(status, headers)
     return document
 
+def test():
+    import doctest
+    sys.exit(doctest.testmod()[0])
+
+if __name__ == "__main__":
+    test()
