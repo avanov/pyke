@@ -38,14 +38,14 @@ goal_mode = False
 
 def p_top(p):
     ''' top : file
-            | python_goal
+            | goal
     '''
     p[0] = p[1]
 
 def p_goal(p):
-    ''' python_goal : CHECK_TOK IDENTIFIER_TOK '.' IDENTIFIER_TOK LP_TOK patterns_opt RP_TOK
+    ''' goal : CHECK_TOK IDENTIFIER_TOK '.' IDENTIFIER_TOK LP_TOK patterns_opt RP_TOK
     '''
-    p[0] = (p[2], p[4], p[6], pattern_vars)
+    p[0] = (p[2], p[4], p[6], python_vars, pattern_vars)
 
 def p_file(p):
     ''' file : nl_opt parent_opt fc_rules bc_rules_opt
@@ -382,6 +382,13 @@ def p_pattern_var(p):
     else:
         p[0] = "contexts.variable(%s)" % p[1]
 
+def p_python_var(p):
+    ''' variable : PYTHON_VAR_TOK
+    '''
+    global python_vars
+    python_vars.append(p[1])
+    p[0] = contexts.variable(p[1])
+
 def p_anonymous_var(p):
     ''' variable : ANONYMOUS_VAR_TOK
     '''
@@ -587,7 +594,7 @@ def init(this_module, check_tables = False, debug = 0):
 # Use the first line for normal use, the second for testing changes in the
 # grammer (the first line does not report grammer errors!).
 def parse(this_module, filename, check_tables = False, debug = 0):
-#def parse(this_module, filename, check_tables = True, debug = 1):
+#def parse(this_module, filename, check_tables = False, debug = 1):
     global goal_mode
     init(this_module, check_tables, debug)
     with open(filename) as f:
@@ -598,11 +605,11 @@ def parse(this_module, filename, check_tables = False, debug = 0):
         scanner.goal_mode = False
         goal_mode = False
         #parser.restart()
-        return parser.parse(f.read() + '\n', lexer=scanner.lexer, tracking=True,
+        return parser.parse(f.read(), lexer=scanner.lexer, tracking=True,
                             debug=debug)
 
 def parse_goal(this_module, s, check_tables = False, debug = 0):
-    global goal_mode, pattern_vars
+    global goal_mode, python_vars, pattern_vars
     init(this_module, check_tables, debug)
     scanner.init(scanner, debug, check_tables)
     scanner.lexer.lineno = 1
@@ -610,6 +617,7 @@ def parse_goal(this_module, s, check_tables = False, debug = 0):
     scanner.kfb_mode = False
     scanner.goal_mode = True
     goal_mode = True
+    python_vars = []
     pattern_vars = []
     #parser.restart()
     return parser.parse('check ' + s, lexer=scanner.lexer, tracking=True,
@@ -722,3 +730,10 @@ def run(this_module, filename='TEST/krbparse_test.krb'):
     import pprint
     pprint.pprint(parse(this_module, filename, True))
 
+def test():
+    import doctest
+    import sys
+    sys.exit(doctest.testmod()[0])
+
+if __name__ == "__main__":
+    test()

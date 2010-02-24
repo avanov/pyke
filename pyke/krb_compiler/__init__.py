@@ -81,16 +81,13 @@ def dump(ast, f = sys.stderr, need_nl = False, indent = 0):
     return did_nl
 
 def to_relative(from_path, to_path):
-    '''Calculates the relative path to get from from_path to to_path.
-
+    '''
         >>> to_relative('/a/b/c', '/a/b/d/e')
         '../d/e'
         >>> to_relative('/a/b/c', '/b/d/e')
         '/b/d/e'
         >>> to_relative('/a/b/c', '/a/b/c/e')
         'e'
-        >>> to_relative('/a/b/c', '/a/b2/d/e')
-        '../../b2/d/e'
     '''
     from_path = os.path.abspath(from_path)
     to_path = os.path.abspath(to_path)
@@ -220,3 +217,10 @@ def write_file2(lines, f, indents, lineno_map, lineno, starting_lineno = None):
             lineno += 1
     return lineno, starting_lineno
 
+
+def test():
+    import doctest
+    sys.exit(doctest.testmod()[0])
+
+if __name__ == "__main__":
+    test()

@@ -53,7 +53,6 @@ class kqb_parser(object):
             (?P<colon> : ) 
         ) [ \t\f\r\v]* (?: \#.* )? ''', re.UNICODE | re.VERBOSE)
     pushed_token = None
-
     def __init__(self, f):
         # f needs readline() and name.
         self.f = f
@@ -61,7 +60,6 @@ class kqb_parser(object):
         self.line = ''
         self.column = 0
         self.eof = False
-
     def readline(self):
         r'''
             >>> from StringIO import StringIO
@@ -98,7 +96,6 @@ class kqb_parser(object):
                 self.indent, self.column = scanner.count_indent(line)
                 self.line = line
                 break
-
     def SyntaxError(self, msg, last_token=True):
         if last_token:
             raise SyntaxError(msg,
@@ -107,7 +104,6 @@ class kqb_parser(object):
         raise SyntaxError(msg,
                           (self.f.name, self.lineno, self.column + 1,
                            self.line))
-
     def push_token(self):
         #print "push_token:", self.last_token  # FIX
         self.pushed_token = self.last_token
@@ -115,7 +111,6 @@ class kqb_parser(object):
         self.pushed_column = self.column
         self.indent = self.last_indent
         self.column = self.last_column
-
     def get_token(self, check_token=None):
         r'''
             >>> from StringIO import StringIO
@@ -216,7 +211,6 @@ class kqb_parser(object):
         self.last_token = str(token), value
         #print "get_token: returning", self.last_token  # FIX
         return self.last_token
-
     def get_block_string(self, stop=None, hanging=False, ending_newlines=False):
         r'''
             >>> from StringIO import StringIO
@@ -280,7 +274,6 @@ class kqb_parser(object):
             ans.append(' ' * (self.indent - indent) + self.line[self.column:])
         if not ans: self.SyntaxError("expected block string", False)
         return u'\n'.join(scanner.unescape(str) for str in ans)
-
     def parse_simple_match(self):
         token, value = self.get_token()
         if token == 'str' or token == 'id' or token == 'number' or \
@@ -314,7 +307,6 @@ class kqb_parser(object):
             next_token, next_value = self.get_token('number')
             return slice(None, next_value)
         self.SyntaxError("expected match, got %s" % token)
-
     def parse_match(self):
         r'''
             >>> from StringIO import StringIO
@@ -351,13 +343,11 @@ class kqb_parser(object):
         self.push_token()
         if len(ans) == 1: return ans[0]
         return tuple(ans)
-
     def get_value(self):
         token, value = self.get_token()
         if token not in ('const', 'number', 'id', 'str'):
             self.SyntaxError("expected value, got %s" % token)
         return value
-
     def skip_spaces(self, pre_increment=0):
         if pre_increment:
             indent, chars = \
@@ -368,7 +358,6 @@ class kqb_parser(object):
         indent, chars = scanner.count_indent(self.line[self.column:])
         self.indent += indent
         self.column += chars
-
     def parse_alternatives(self):
         r'''
             >>> from StringIO import StringIO
@@ -433,7 +422,6 @@ class kqb_parser(object):
                       if isinstance(value, tuple)) \
                   if review \
                   else None
-
     def parse_review(self):
         r'''
             >>> from StringIO import StringIO
@@ -474,7 +462,6 @@ class kqb_parser(object):
             self.SyntaxError("unexpected indent", False)
         #print "parse_review:", tuple(review)   # FIX
         return tuple(review)
-
     def parse_questions(self):
         r''' question_base.question generator.
 
@@ -533,7 +520,8 @@ class kqb_parser(object):
             if self.column >= len(self.line): self.readline()
 
 def parse_kqb(filename):
-    name = os.path.basename(filename)[:-4]
+    dirs, base = os.path.split(filename)
+    name = base[:-4]
     with open(filename, 'rU') as f:
         base = question_base.question_base(name)
         parser = kqb_parser(f)
@@ -541,3 +529,10 @@ def parse_kqb(filename):
             base.add_question(question)
     return base
 
+def test():
+    import doctest
+    import sys
+    sys.exit(doctest.testmod()[0])
+
+if __name__ == "__main__":
+    test()
