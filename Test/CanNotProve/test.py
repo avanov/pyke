@@ -23,5 +23,5 @@ def dotests():
     test('rules', 'rule2', 2)
     Engine.reset()
     Engine.activate('rules')
-    vars, no_plan = Engine.prove_1_goal('facts.fact3($ans)')
-    assert vars['ans'] == 'hi\nthere'
+    (arg,), no_plan = Engine.prove_1('facts', 'fact3', (), 1)
+    assert arg == 'hi\nthere'
