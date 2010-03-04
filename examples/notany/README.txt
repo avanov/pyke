@@ -7,10 +7,10 @@ files showing examples of use of the 'notany' clause in both cases.
 
 These rules find all people who have no aunts all people with no uncles.
 
-    >>> import driver
+    >>> import run
 
     # uses fc_notany.krb
-    >>> driver.fc_test()
+    >>> run.fc_test()
     egon has no uncle
     ralf has no uncle
     anton has no uncle
@@ -23,7 +23,7 @@ These rules find all people who have no aunts all people with no uncles.
     sabine has no aunt
 
     # uses bc_notany.krb
-    >>> driver.bc_test()
+    >>> run.bc_test()
     anton has no aunt
     elisabeth has no aunt
     karin has no aunt

@@ -7,9 +7,9 @@
     ...                         'examples/notany')
     >>> sys.path.append(new_path)
 
-    >>> import driver
+    >>> import run
 
-    >>> driver.fc_test()
+    >>> run.fc_test()
     egon has no uncle
     ralf has no uncle
     anton has no uncle
@@ -21,7 +21,7 @@
     karin has no aunt
     sabine has no aunt
 
-    >>> driver.bc_test()
+    >>> run.bc_test()
     anton has no aunt
     elisabeth has no aunt
     karin has no aunt

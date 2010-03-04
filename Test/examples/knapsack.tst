@@ -7,9 +7,9 @@
     ...                         'examples/knapsack')
     >>> sys.path.append(new_path)
 
-    >>> import driver
+    >>> import run
 
-    >>> driver.run((('bread', 4, 9200),
+    >>> run.run((('bread', 4, 9200),
     ...          ('pasta', 2, 4500),
     ...          ('peanutButter', 1, 6700),
     ...          ('babyFood', 3, 6900)),

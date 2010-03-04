@@ -7,12 +7,12 @@
     ...                         'examples/learn_pyke')
     >>> sys.path.append(new_path)
 
-    >>> import driver
+    >>> import run
     >>> from StringIO import StringIO
     >>> import sys
 
     >>> sys.stdin = StringIO('8\n2\n2\n13\n')
-    >>> driver.run()
+    >>> run.run()
     ______________________________________________________________________________
     Assume that the following two patterns are contained in different rules
     and that none of the pattern variables are initially bound to values:
