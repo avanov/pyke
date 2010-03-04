@@ -44,18 +44,17 @@ Examples
 .. this code is hidden and will change to the root directory and add '' to
    sys.path for the code section following:
    >>> import sys
-   >>> if '' not in sys.path: sys.path.insert(0, '')
+   >>> sys.path.insert(0, '')
    >>> import os
    >>> os.chdir("../..")  # get out of documents directory back to root dir
-   >>> os.chdir("examples/towers_of_hanoi")
 
 Several examples are included to help you become familiar with Pyke.  These
 are all in an ``examples`` directory::
 
-    $ cd examples/towers_of_hanoi
-    $ python
-    >>> import driver
-    >>> driver.test(2)
+    >>> import os
+    >>> os.chdir("examples/towers_of_hanoi")
+    >>> import run
+    >>> run.test(2)
     got 1: ((0, 1), (0, 2), (1, 2))
     got 2: ((0, 2), (0, 1), (2, 0), (1, 2), (0, 2))
 
@@ -89,7 +88,7 @@ them:
 - A mix of forward-chaining and backward-chaining with some use of plans_ added
   too.
 
-The driver.py program also demonstrates how to use krb_traceback_ and the
+The run.py program also demonstrates how to use krb_traceback_ and the
 print_stats_ function.
 
 
