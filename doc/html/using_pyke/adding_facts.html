@@ -41,10 +41,9 @@
 <div class="normal-nav"><a href="../pyke_syntax/index.html">Pyke Syntax</a></div>
 
 <div class="title-nav"><a href="index.html">Using Pyke</a></div><div class="nav-branch">
-<div class="normal-nav"><a href="creating_engine.html">Creating an Engine</a></div>
+<div class="normal-nav"><a href="creating_engine.html">Creating Engine</a></div>
 <div class="normal-nav"><a href="adding_facts.html">Asserting Facts</a></div>
 <div class="normal-nav"><a href="proving_goals.html">Proving Goals</a></div>
-<div class="normal-nav"><a href="other_functions.html">Other functions</a></div>
 </div>
 <div class="normal-nav"><a href="../examples.html">Examples</a></div>
 <div class="normal-nav"><a href="../PyCon2008-paper.html">PyCon 2008 Paper</a></div>
@@ -72,16 +71,9 @@
                 <a name="startcontent" id="startcontent"></a>
                 <div class="document" id="asserting-new-facts">
 <h1 class="title">Asserting New Facts</h1>
-<!-- this code is hidden and will set __file__ to the doc/examples directory.
->>> import os
->>> __file__ = \
-...   os.path.join(os.path.dirname(os.path.dirname(os.getcwd())),
-...                'examples')
->>> from pyke import knowledge_engine
->>> my_engine = knowledge_engine.engine(__file__) -->
 <dl class="docutils">
 <dt><em>some_engine</em>.add_universal_fact(kb_name, fact_name, arguments)</dt>
-<dd><p class="first">The <tt class="docutils literal">add_universal_fact</tt> function is called once per <a class="reference external" href="../knowledge_bases/fact_bases.html#facts">fact</a>.  These
+<dd><p class="first">The <tt class="docutils literal"><span class="pre">add_universal_fact</span></tt> function is called once per <a class="reference external" href="../knowledge_bases/fact_bases.html#facts">fact</a>.  These
 <a class="reference external" href="../knowledge_bases/fact_bases.html#facts">facts</a> are never deleted and apply to all <em>cases</em>.</p>
 <p>Alternatively, you can place universal facts in a <a class="reference external" href="../pyke_syntax/kfb_syntax.html">.kfb file</a> so that
 they are loaded automatically.</p>
@@ -99,11 +91,11 @@ they are loaded automatically.</p>
 son_of('bruce', 'thomas')
 son_of('david', 'bruce')
 </pre>
-<p class="last">These facts are accessed as <tt class="docutils literal">kb_name.fact_name(arguments)</tt> within the
+<p class="last">These facts are accessed as <tt class="docutils literal"><span class="pre">kb_name.fact_name(arguments)</span></tt> within the
 <a class="reference external" href="../pyke_syntax/krb_syntax/index.html">.krb files</a>.</p>
 </dd>
 <dt><em>some_engine</em>.assert_(kb_name, fact_name, arguments)</dt>
-<dd><p class="first">Call <tt class="docutils literal">assert_</tt> for each starting <a class="reference external" href="../knowledge_bases/fact_bases.html#facts">fact</a> for this case.  Like universal
+<dd><p class="first">Call <tt class="docutils literal"><span class="pre">assert_</span></tt> for each starting <a class="reference external" href="../knowledge_bases/fact_bases.html#facts">fact</a> for this case.  Like universal
 facts, you may have multiple facts with the same name so long as they
 have different arguments.</p>
 <pre class="doctest-block">
@@ -123,7 +115,7 @@ son_of('david', 'bruce')
 </pre>
 <p>There is no difference within the <a class="reference external" href="../pyke_syntax/krb_syntax/index.html">.krb files</a> of how universal facts
 verses case specific facts are used.  The only difference between the two
-types of facts is that the case specific facts are deleted when a <tt class="docutils literal">reset</tt>
+types of facts is that the case specific facts are deleted when a <tt class="docutils literal"><span class="pre">reset</span></tt>
 is done.</p>
 <pre class="last doctest-block">
 &gt;&gt;&gt; my_engine.reset()
@@ -146,15 +138,11 @@ son_of('david', 'bruce')
           <td id="right-nav">
             <div id="right-nav-div">
                 <h3>More:</h3>
-<div class="right-item"><a href="creating_engine.html">Creating an Inference Engine Object</a><p>How to create a Pyke <em>inference engine</em> object.</p>
+<div class="right-item"><a href="creating_engine.html">Creating an Inference Engine Object</a><p>How to create an inference engine object.</p>
 </div>
 <div class="right-item"><a href="adding_facts.html">Asserting New Facts</a><p>How to dynamically assert new <em>facts</em> from your Python program.</p>
 </div>
-<div class="right-item"><a href="proving_goals.html">Proving Goals</a><p>Using Pyke's API to prove goals from your Python program.</p>
-</div>
-<div class="right-item"><a href="other_functions.html">Other Functions</a><p>Other miscellaneous functions available that you might be interested
-in, such as tracing rules and smart error tracebacks that show lines
-from your .krb files.</p>
+<div class="right-item"><a href="proving_goals.html">Proving Goals</a><p>The API into Pyke to prove goals.</p>
 </div>
 
             </div>
@@ -173,7 +161,7 @@ from your .krb files.</p>
 
   <div id="last-modified">
     Page last modified
-    Mon, Mar 08 2010.
+    Thu, Mar 04 2010.
 
   </div>
 

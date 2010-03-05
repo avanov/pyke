@@ -81,7 +81,7 @@ do automatic program generation.</p>
 clause at the end of each <a class="reference external" href="rules/index.html">rule</a> in the <a class="reference external" href="../pyke_syntax/krb_syntax/index.html">.krb file</a>.  They don't affect how
 the <a class="reference external" href="rules/index.html">rules</a> run to prove a goal, but are
 gathered up to form a call graph that is returned along with the <a class="reference external" href="pattern_matching/pattern_variables.html">pattern
-variable</a> bindings that <a class="reference external" href="../using_pyke/proving_goals.html">prove</a> the top-level goal.</p>
+variable</a> bindings that <a class="reference external" href="../using_pyke.html#proving-goals">prove</a> the top-level goal.</p>
 </div>
 <div class="section" id="example">
 <h2>Example</h2>
@@ -180,31 +180,23 @@ are at different indent levels in the <a class="reference external" href="../pyk
 </div>
 <div class="section" id="running-the-example">
 <h2>Running the Example</h2>
-<!-- This code is hidden.  It will add '' to sys.path, change to the doc.examples
-directory and store the directory path in __file__ for the code section
-following:
->>> import sys
->>> if '' not in sys.path: sys.path.insert(0, '')
->>> import os
->>> os.chdir("../../examples")
->>> __file__ = os.getcwd() -->
-<p>The plan is created as a byproduct of <a class="reference external" href="../using_pyke/proving_goals.html">proving</a> the goal:</p>
+<p>The plan is created as a byproduct of <a class="reference external" href="../using_pyke.html#proving-goals">proving</a> the goal:</p>
 <blockquote>
 <pre class="doctest-block">
 &gt;&gt;&gt; from pyke import knowledge_engine
-</pre>
-<pre class="doctest-block">
-&gt;&gt;&gt; engine = knowledge_engine.engine(__file__)
+&gt;&gt;&gt; import doc.examples
+&gt;&gt;&gt; engine = knowledge_engine.engine(doc.examples)
 &gt;&gt;&gt; engine.activate('plan_example')
-&gt;&gt;&gt; no_vars, plan1 = \
-...   engine.prove_1_goal(
-...     'plan_example.transfer((bruce, checking), (bruce, savings))')
+&gt;&gt;&gt; no_vars, plan1 = engine.prove_1('plan_example', 'transfer',
+...                                 (('bruce', 'checking'),
+...                                  ('bruce', 'savings')),
+...                                 0)
 </pre>
 </blockquote>
-<p><tt class="docutils literal">plan1</tt> is now a program to transfer X amount
+<p><tt class="docutils literal"><span class="pre">plan1</span></tt> is now a program to transfer X amount
 from 'bruce', 'checking' to 'bruce', 'savings'.  Using the above rule names
 as function names, plan1 looks like this:</p>
-<div class="figure align-center">
+<div align="center" class="figure">
 <img alt="../images/plan1.png" src="../images/plan1.png" style="width: 187.0px; height: 118.0px;" />
 <p class="caption">Plan1</p>
 </div>
@@ -226,22 +218,22 @@ withdraw 50 from bruce checking
 deposit 50 to bruce savings
 </pre>
 </blockquote>
-<p>Notice the strings: <tt class="docutils literal">bruce</tt>, <tt class="docutils literal">checking</tt> and <tt class="docutils literal">savings</tt> in the output.
+<p>Notice the strings: <tt class="docutils literal"><span class="pre">bruce</span></tt>, <tt class="docutils literal"><span class="pre">checking</span></tt> and <tt class="docutils literal"><span class="pre">savings</span></tt> in the output.
 These were specified as <a class="reference external" href="pattern_matching/pattern_variables.html">pattern variables</a> in the code and are <a class="reference external" href="../about_pyke/cooking_functions.html">cooked</a>
 into the plan along with the function call graph.</p>
 <p>Let's create a second program:</p>
 <blockquote>
 <pre class="doctest-block">
-&gt;&gt;&gt; no_vars, plan2 = \
-...   engine.prove_1_goal(
-...     'plan_example.transfer((bruce, checking), '
-...                           '(my_other_bank, bruce, savings))')
+&gt;&gt;&gt; no_vars, plan2 = engine.prove_1('plan_example', 'transfer',
+...                                 (('bruce', 'checking'),
+...                                  ('my_other_bank', 'bruce', 'savings')),
+...                                 0)
 </pre>
 </blockquote>
-<p><tt class="docutils literal">plan2</tt> is now a program to transfer X amount
+<p><tt class="docutils literal"><span class="pre">plan2</span></tt> is now a program to transfer X amount
 from 'my_other_bank', 'bruce', 'checking' to 'bruce', 'savings'.
 Plan2 looks like this:</p>
-<div class="figure align-center">
+<div align="center" class="figure">
 <img alt="../images/plan2.png" src="../images/plan2.png" style="width: 187.0px; height: 195.0px;" />
 <p class="caption">Plan2</p>
 </div>
@@ -257,10 +249,10 @@ send 200 to bank my_other_bank acct bruce savings
 <p>And the final use case:</p>
 <blockquote>
 <pre class="doctest-block">
-&gt;&gt;&gt; no_vars, plan3 = \
-...   engine.prove_1_goal(
-...     'plan_example.transfer((my_other_bank, bruce, checking), '
-...                           '(bruce, savings))')
+&gt;&gt;&gt; no_vars, plan3 = engine.prove_1('plan_example', 'transfer',
+...                                 (('my_other_bank', 'bruce', 'checking'),
+...                                  ('bruce', 'savings')),
+...                                 0)
 &gt;&gt;&gt; plan3(150)
 get 150 from bank my_other_bank acct bruce checking
 withdraw 150 from central_accts ach_recv_acct
@@ -268,7 +260,7 @@ deposit 150 to bruce savings
 </pre>
 </blockquote>
 <p>Plan3 looks like this:</p>
-<div class="figure align-center">
+<div align="center" class="figure">
 <img alt="../images/plan3.png" src="../images/plan3.png" style="width: 264.0px; height: 198.0px;" />
 <p class="caption">Plan3</p>
 </div>
@@ -326,7 +318,7 @@ Python functions, see <a class="reference external" href="../about_pyke/cooking_
 
   <div id="last-modified">
     Page last modified
-    Fri, Mar 05 2010.
+    Wed, Mar 03 2010.
 
   </div>
 
