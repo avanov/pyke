@@ -5,18 +5,18 @@
 #    when
 #        prior_knowledge()
 #        python
-#            print "OK, here's some pointers specific to pyke:"
-#            print
-#            print "In pyke, pattern variables are preceded by a dollar sign " \
-#                  "('$').  e.g.: $foo"
-#            print "Pattern variables starting with an underscore are " \
-#                  "anonymous.  e.g.: $_foo"
-#            print "Identifiers without a dollar sign are treated like string " \
-#                  "literals.\n" \
-#                  "    This just saves having to type the quotes."
-#            print "Singleton tuples do not require a comma."
-#            print "A tuple pattern ending in '*$foo' matches $foo to the " \
-#                  "rest of the tuple."
+#            print("OK, here's some pointers specific to pyke:")
+#            print()
+#            print("In pyke, pattern variables are preceded by a dollar sign "
+#                  "('$').  e.g.: $foo")
+#            print("Pattern variables starting with an underscore are "
+#                  "anonymous.  e.g.: $_foo")
+#            print("Identifiers without a dollar sign are treated like string "
+#                  "literals.\n"
+#                  "    This just saves having to type the quotes.")
+#            print("Singleton tuples do not require a comma.")
+#            print("A tuple pattern ending in '*$foo' matches $foo to the "
+#                  "rest of the tuple.")
 #        knows_pat_master()
 #
 #prior_knowledge1
@@ -136,7 +136,7 @@ ask_until_correct__try_again
     use ask_until_correct($question, $right_ans)
     when
         python engine.get_ke('questions', $question).reset()
-        python print "Try again:"
+        python print("Try again:")
         ask_until_correct($question, $right_ans)
 
 knows_pattern_variables

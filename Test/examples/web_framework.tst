@@ -19,13 +19,14 @@ First, fire up the server:
     ...                           stdout=subprocess.PIPE,
     ...                           stderr=subprocess.STDOUT,
     ...                           close_fds=True, env=os.environ)
-    >>> server.stdin.write(r'''
+    >>> server.stdin.write((r'''
     ... import sys
     ... sys.path.append(%r)
     ... sys.path.append(%r)
     ... from web_framework import simple_server
     ... simple_server.run()
-    ... ''' % (new_path, source_dir))
+    ... ''' % (new_path, source_dir)).encode()) > 110
+    True
     >>> server.stdin.close()
     >>> def readline():
     ...     global server_error_msg
@@ -39,8 +40,8 @@ First, fire up the server:
     ...           "Server terminated prematurely with returncode %r\n" % \
     ...             (server.returncode,))
     ...         return
-    ...     line = server.stdout.readline()
-    ...     print >> sys.stderr, line,
+    ...     line = server.stdout.readline().decode()
+    ...     print(line, end='', file=sys.stderr)
     ...     return line
     >>> while True:
     ...     line = readline()
@@ -52,16 +53,16 @@ First, fire up the server:
 
 Then interact with it:
 
-    >>> import urllib
+    >>> import urllib.request
     >>> def get(path):
-    ...     f = urllib.urlopen("http://localhost:8080/" + path)
-    ...     #print >> sys.stderr, "info:", tuple(sorted(f.info().keys()))
+    ...     f = urllib.request.urlopen("http://localhost:8080/" + path)
+    ...     #print("info:", tuple(sorted(f.info().keys())), file=sys.stderr)
     ...     try:
-    ...         return f.read() # int(f.info()['content-length']))
+    ...         return f.read().decode() # int(f.info()['content-length']))
     ...     finally:
     ...         f.close()
 
-    >>> print get("movie/1/movie.html")
+    >>> print(get("movie/1/movie.html"))
     <html>
       <head>
         <title>It's a Mad, Mad, Mad, Mad World</title>
@@ -84,9 +85,9 @@ Then interact with it:
     >>> readline()        # doctest: +ELLIPSIS
     "get_plan(..., ('movie',), ...examples/web_framework/movie.html)\n"
     >>> readline()        # doctest: +ELLIPSIS
-    'localhost - - [...] "GET /movie/1/movie.html HTTP/1.0" 200 302\n'
+    'localhost - - [...] "GET /movie/1/movie.html HTTP/1.1" 200 302\n'
 
-    >>> print get("movie/3/movie.html")
+    >>> print(get("movie/3/movie.html"))
     <html>
       <head>
         <title>A Funny Thing Happened on the Way to the Forum</title>
@@ -107,9 +108,9 @@ Then interact with it:
     <BLANKLINE>
 
     >>> readline()        # doctest: +ELLIPSIS
-    'localhost - - [...] "GET /movie/3/movie.html HTTP/1.0" 200 332\n'
+    'localhost - - [...] "GET /movie/3/movie.html HTTP/1.1" 200 332\n'
 
-    >>> print get("movie/3/movie2.html")
+    >>> print(get("movie/3/movie2.html"))
     <html>
       <head>
         <title>A Funny Thing Happened on the Way to the Forum</title>
@@ -139,9 +140,9 @@ Then interact with it:
     >>> readline()        # doctest: +ELLIPSIS
     "get_plan(..., ('movie',), ...examples/web_framework/movie2.html)\n"
     >>> readline()        # doctest: +ELLIPSIS
-    'localhost - - [...] "GET /movie/3/movie2.html HTTP/1.0" 200 429\n'
+    'localhost - - [...] "GET /movie/3/movie2.html HTTP/1.1" 200 429\n'
 
-    >>> print get("movie/6/movie2.html")
+    >>> print(get("movie/6/movie2.html"))
     <html>
       <head>
         <title>Casino Royale</title>
@@ -177,7 +178,7 @@ Then interact with it:
     <BLANKLINE>
 
     >>> readline()        # doctest: +ELLIPSIS
-    'localhost - - [...] "GET /movie/6/movie2.html HTTP/1.0" 200 485\n'
+    'localhost - - [...] "GET /movie/6/movie2.html HTTP/1.1" 200 485\n'
 
 Kill server:
 

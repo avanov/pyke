@@ -67,7 +67,7 @@ class claim_goal(special_fn):
         >>> gen.next()
         Traceback (most recent call last):
             ...
-        StopProof
+        pyke.rule_base.StopProof
         >>> mgr.__exit__(None, None, None)
         >>> cg.lookup(None, None, None)
         Traceback (most recent call last):
@@ -104,8 +104,11 @@ def run_cmd(pat_context, cmd_pat, cwd_pat=None, stdin_pat=None):
         ...         pattern.pattern_literal('/home/bruce'))
         (0, '/home/bruce\n', '')
     '''
-    stdin = None if stdin_pat is None \
-                 else stdin_pat.as_data(pat_context)
+    stdin = None
+    if stdin_pat is not None:
+        data = stdin_pat.as_data(pat_context)
+        if data is not None:
+            stdin = data.encode()
     process = subprocess.Popen(cmd_pat.as_data(pat_context),
                                bufsize=-1,
                                universal_newlines=True,

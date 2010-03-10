@@ -25,6 +25,7 @@ from __future__ import with_statement
 import sys
 import types
 import os, os.path
+import imp
 import re
 import contextlib
 
@@ -421,7 +422,7 @@ class engine(object):
 
 def _get_target_pkg(target_name):
     if target_name in sys.modules:
-        return getattr(reload(sys.modules[target_name]), 'targets')
+        return getattr(imp.reload(sys.modules[target_name]), 'targets')
     return getattr(target_pkg.import_(target_name), 'targets')
 
 def _pythonify_path(path):

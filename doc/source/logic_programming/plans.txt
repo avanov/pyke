@@ -90,12 +90,12 @@ Here's the example rule base::
     13  withdraw
     14      use withdraw(($who, $acct_type)) taking (amount)
     15      with
-    16          print "withdraw", amount, "from", $who, $acct_type
+    16          print("withdraw", amount, "from", $who, $acct_type)
         
     17  deposit
     18      use deposit(($who, $acct_type)) taking (amount)
     19      with
-    20          print "deposit", amount, "to", $who, $acct_type
+    20          print("deposit", amount, "to", $who, $acct_type)
         
     21  transfer_ach1
     22      use transfer_ach($from_acct, ($bank, $who, $acct_type)) taking (amount)
@@ -105,7 +105,7 @@ Here's the example rule base::
     26          deposit((central_accts, ach_send_acct))
     27              $$(amount)
     28      with
-    29          print "send", amount, "to bank", $bank, "acct", $who, $acct_type
+    29          print("send", amount, "to bank", $bank, "acct", $who, $acct_type)
         
     30  transfer_ach2
     31      use transfer_ach($from_acct, $to_acct) taking (amount)
@@ -120,7 +120,7 @@ Here's the example rule base::
     39  get_ach
     40      use get_ach(($bank, $who, $acct_type)) taking (amount)
     41      with
-    42          print "get", amount, "from bank", $bank, "acct", $who, $acct_type
+    42          print("get", amount, "from bank", $bank, "acct", $who, $acct_type)
 
 How the Plan Functions are Generated for This Example
 -------------------------------------------------------
