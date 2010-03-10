@@ -61,14 +61,9 @@ specified, if any, in the `taking clause`_ of the rule__ proving the top-level
 goal.
 
 You may call the plan function any number of times.  You may even pickle
-the plan for later use.  But the plans are constructed out of
-`functools.partial`_ functions, that need to be registered with copy_reg_
-if you are running Python 2.x:
-
-    >>> import copy_reg
-    >>> import functools
-    >>> copy_reg.pickle(functools.partial,
-    ...                 lambda p: (functools.partial, (p.func,) + p.args))
+the plan for later use.  The plans are constructed out of `functools.partial`_
+functions, which needed to be registered with copy_reg_ in Python 2.x; but
+this is no longer needed in Python 3.x.
 
 No special code is required to unpickle a plan.  Just unpickle and call it.
 (Unpickling the plan only imports one small Pyke module to be able to run
@@ -121,18 +116,14 @@ Python functions between subgoal proofs.
     ... except:
     ...     krb_traceback.print_exc(None, sys.stdout)   # sys.stdout needed for doctest
     Traceback (most recent call last):
-      File "<doctest other_functions.txt[19]>", line 2, in <module>
+      File "<doctest other_functions.txt[16]>", line 2, in <module>
         my_engine.prove_1_goal('error_test.goal()')
-      File "...knowledge_engine.py", line 359, in prove_1_goal
+      File "...knowledge_engine.py", line 360, in prove_1_goal
         return goal.compile(goal_str).prove_1(self, **args)
       File "...goal.py", line 47, in prove_1
-        return iter(it).next()
-      File "...rule_base.py", line 50, in next
-        return self.iterator.next()
-      File "...knowledge_engine.py", line 41, in from_iterable
-        for x in iterable: yield x
-      File "...knowledge_engine.py", line 41, in from_iterable
-        for x in iterable: yield x
+        return next(iter(it))
+      File "...rule_base.py", line 50, in __next__
+        return next(self.iterator)
       File "...error_test.krb", line 26, in rule1
         goal2()
       File "...error_test.krb", line 31, in rule2
