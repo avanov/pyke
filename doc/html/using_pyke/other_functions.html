@@ -89,17 +89,9 @@ call it like a normal Python function.  The arguments required are simply those
 specified, if any, in the <a class="reference external" href="../pyke_syntax/krb_syntax/bc_rule.html#taking-clause">taking clause</a> of the <a class="reference external" href="../pyke_syntax/krb_syntax/bc_rule.html">rule</a> proving the top-level
 goal.</p>
 <p>You may call the plan function any number of times.  You may even pickle
-the plan for later use.  But the plans are constructed out of
-<a class="reference external" href="http://docs.python.org/library/functools.html">functools.partial</a> functions, that need to be registered with <a class="reference external" href="http://docs.python.org/library/copy_reg.html">copy_reg</a>
-if you are running Python 2.x:</p>
-<blockquote>
-<pre class="doctest-block">
-&gt;&gt;&gt; import copy_reg
-&gt;&gt;&gt; import functools
-&gt;&gt;&gt; copy_reg.pickle(functools.partial,
-...                 lambda p: (functools.partial, (p.func,) + p.args))
-</pre>
-</blockquote>
+the plan for later use.  The plans are constructed out of <a class="reference external" href="http://docs.python.org/library/functools.html">functools.partial</a>
+functions, which needed to be registered with <a class="reference external" href="http://docs.python.org/3.1/library/copyreg.html">copy_reg</a> in Python 2.x; but
+this is no longer needed in Python 3.x.</p>
 <p>No special code is required to unpickle a plan.  Just unpickle and call it.
 (Unpickling the plan only imports one small Pyke module to be able to run
 the plan).</p>
@@ -150,18 +142,14 @@ Python functions between subgoal proofs.</p>
 ... except:
 ...     krb_traceback.print_exc(None, sys.stdout)   # sys.stdout needed for doctest
 Traceback (most recent call last):
-  File &quot;&lt;doctest other_functions.txt[19]&gt;&quot;, line 2, in &lt;module&gt;
+  File &quot;&lt;doctest other_functions.txt[16]&gt;&quot;, line 2, in &lt;module&gt;
     my_engine.prove_1_goal('error_test.goal()')
-  File &quot;...knowledge_engine.py&quot;, line 359, in prove_1_goal
+  File &quot;...knowledge_engine.py&quot;, line 366, in prove_1_goal
     return goal.compile(goal_str).prove_1(self, **args)
   File &quot;...goal.py&quot;, line 47, in prove_1
-    return iter(it).next()
-  File &quot;...rule_base.py&quot;, line 50, in next
-    return self.iterator.next()
-  File &quot;...knowledge_engine.py&quot;, line 41, in from_iterable
-    for x in iterable: yield x
-  File &quot;...knowledge_engine.py&quot;, line 41, in from_iterable
-    for x in iterable: yield x
+    return next(iter(it))
+  File &quot;...rule_base.py&quot;, line 50, in __next__
+    return next(self.iterator)
   File &quot;...error_test.krb&quot;, line 26, in rule1
     goal2()
   File &quot;...error_test.krb&quot;, line 31, in rule2
@@ -239,7 +227,7 @@ in.</p>
 
   <div id="last-modified">
     Page last modified
-    Tue, Mar 09 2010.
+    Fri, Mar 12 2010.
 
   </div>
 

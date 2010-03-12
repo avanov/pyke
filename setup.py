@@ -4,13 +4,12 @@ from distutils.core import setup
 
 setup(
     name = "pyke",
-    version = "1.0.4",
+    version = "1.1",
     packages = ['pyke', 'pyke.krb_compiler', 'pyke.krb_compiler.ply'],
     package_data = {
         'pyke.krb_compiler': ['*.krb'],
         'pyke.krb_compiler.ply': ['README', 'README.pyke'],
     },
-    data_files = [('pyke', ['LICENSE', 'README.txt', 'README-3.x.txt'])],
 
     # old setuptools stuff:
     #install_requires = [],
@@ -35,7 +34,7 @@ setup(
         backward-chaining rules.
     """,
     download_url =
-        "http://downloads.sourceforge.net/pyke/pyke-1.0.4.zip",
+        "http://downloads.sourceforge.net/pyke/pyke-1.1.zip",
     classifiers = [
         "Development Status :: 5 - Production/Stable",
         "Intended Audience :: Developers",
