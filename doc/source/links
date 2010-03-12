@@ -31,7 +31,7 @@
 .. _compound_premise: pyke_syntax/krb_syntax/compound_premise.html
 .. _cooked: `cooking functions`_
 .. _cooking functions: about_pyke/cooking_functions.html
-.. _copy_reg: http://docs.python.org/library/copy_reg.html
+.. _copy_reg: http://docs.python.org/3.1/library/copyreg.html
 .. _create an engine: using_pyke/creating_engine.html
 .. _creating an inference engine: `create an engine`_
 .. _cut operator: http://en.wikipedia.org/wiki/Cut_%28logic_programming%29

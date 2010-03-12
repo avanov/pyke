@@ -12,4 +12,4 @@ test1
         require
             check $father == $father2
     assert
-        python print $child, "has no step brothers or sisters"
+        python print($child, "has no step brothers or sisters")

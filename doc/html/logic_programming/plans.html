@@ -119,12 +119,12 @@ bank accounts.  Each <em>from_acct</em> and <em>to_acct</em> takes one of two fo
 13  withdraw
 14      use withdraw(($who, $acct_type)) taking (amount)
 15      with
-16          print &quot;withdraw&quot;, amount, &quot;from&quot;, $who, $acct_type
+16          print(&quot;withdraw&quot;, amount, &quot;from&quot;, $who, $acct_type)
 
 17  deposit
 18      use deposit(($who, $acct_type)) taking (amount)
 19      with
-20          print &quot;deposit&quot;, amount, &quot;to&quot;, $who, $acct_type
+20          print(&quot;deposit&quot;, amount, &quot;to&quot;, $who, $acct_type)
 
 21  transfer_ach1
 22      use transfer_ach($from_acct, ($bank, $who, $acct_type)) taking (amount)
@@ -134,7 +134,7 @@ bank accounts.  Each <em>from_acct</em> and <em>to_acct</em> takes one of two fo
 26          deposit((central_accts, ach_send_acct))
 27              $$(amount)
 28      with
-29          print &quot;send&quot;, amount, &quot;to bank&quot;, $bank, &quot;acct&quot;, $who, $acct_type
+29          print(&quot;send&quot;, amount, &quot;to bank&quot;, $bank, &quot;acct&quot;, $who, $acct_type)
 
 30  transfer_ach2
 31      use transfer_ach($from_acct, $to_acct) taking (amount)
@@ -149,7 +149,7 @@ bank accounts.  Each <em>from_acct</em> and <em>to_acct</em> takes one of two fo
 39  get_ach
 40      use get_ach(($bank, $who, $acct_type)) taking (amount)
 41      with
-42          print &quot;get&quot;, amount, &quot;from bank&quot;, $bank, &quot;acct&quot;, $who, $acct_type
+42          print(&quot;get&quot;, amount, &quot;from bank&quot;, $bank, &quot;acct&quot;, $who, $acct_type)
 </pre>
 <div class="section" id="how-the-plan-functions-are-generated-for-this-example">
 <h3>How the Plan Functions are Generated for This Example</h3>

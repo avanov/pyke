@@ -43,7 +43,7 @@ import sys
 import itertools
 from pyke import qa_helpers
 
-encoding = 'UTF-8'
+encoding = None         # probably not needed with Python3.x...
 
 # The answer has been converted to lowercase before these matches:
 yes_match = ('y', 'yes', 't', 'true')
@@ -178,7 +178,7 @@ def ask_string(question, match=None, review=None):
         >>> sys.stdin = StringIO('yes\n')
         >>> ask_string(u'enter string?')
         ______________________________________________________________________________
-        enter string? u'yes'
+        enter string? 'yes'
     '''
     return get_answer(question, qa_helpers.match_prompt(match, str, u"[%s]",
                                                         u''),

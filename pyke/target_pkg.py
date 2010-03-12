@@ -30,6 +30,7 @@ from __future__ import with_statement
 import os, os.path
 import time
 import sys
+import imp
 import re
 import pyke
 
@@ -394,7 +395,7 @@ class target_pkg(object):
             module = sys.modules[module_path]
             if filename in self.compiled_targets:
                 if debug: print >> sys.stderr, "load_module: reloading"
-                module = reload(module)
+                module = imp.reload(module)
         elif do_import:
             if debug: print >> sys.stderr, "load_module: importing"
             module = import_(module_path)
@@ -416,10 +417,9 @@ class target_pkg(object):
         full_path = os.path.join(self.directory, filename)
         if self.loader:
             import contextlib
-            import StringIO
+            import io
             ctx_lib = \
-                contextlib.closing(
-                    StringIO.StringIO(self.loader.get_data(full_path)))
+                contextlib.closing(io.BytesIO(self.loader.get_data(full_path)))
         else:
             ctx_lib = open(full_path, 'rb')
         with ctx_lib as f:

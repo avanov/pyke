@@ -185,7 +185,7 @@ output from the command to stdout or stderr is unavailable.
     >>> engine.prove_1_goal('special.check_command((false))')
     Traceback (most recent call last):
         ...
-    CanNotProve: Can not prove special.check_command((false))
+    pyke.knowledge_engine.CanNotProve: Can not prove special.check_command((false))
 
 Command
 -------
@@ -212,7 +212,7 @@ exit status.
     ...            stdin=stdin) \
     ...       as gen:
     ...         for vars, no_plan in gen:
-    ...             print vars['output']
+    ...             print(vars['output'])
     >>> run_command('command', ('echo', 'hi', 'mom'))
     ('hi mom',)
     >>> run_command('command', ('ls',))   # doctest: +NORMALIZE_WHITESPACE
@@ -238,7 +238,7 @@ exit status.
     >>> run_command('command', ('false',))
     Traceback (most recent call last):
         ...
-    CalledProcessError: Command 'false' returned non-zero exit status 1
+    subprocess.CalledProcessError: Command 'false' returned non-zero exit status 1
 
 General_command
 ---------------
