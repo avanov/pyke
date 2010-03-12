@@ -207,7 +207,7 @@ output from the command to stdout or stderr is unavailable.</p>
 &gt;&gt;&gt; engine.prove_1_goal('special.check_command((false))')
 Traceback (most recent call last):
     ...
-CanNotProve: Can not prove special.check_command((false))
+pyke.knowledge_engine.CanNotProve: Can not prove special.check_command((false))
 </pre>
 </blockquote>
 </div>
@@ -233,7 +233,7 @@ exit status.</p>
 ...            stdin=stdin) \
 ...       as gen:
 ...         for vars, no_plan in gen:
-...             print vars['output']
+...             print(vars['output'])
 &gt;&gt;&gt; run_command('command', ('echo', 'hi', 'mom'))
 ('hi mom',)
 &gt;&gt;&gt; run_command('command', ('ls',))   # doctest: +NORMALIZE_WHITESPACE
@@ -259,7 +259,7 @@ exit status.</p>
 &gt;&gt;&gt; run_command('command', ('false',))
 Traceback (most recent call last):
     ...
-CalledProcessError: Command 'false' returned non-zero exit status 1
+subprocess.CalledProcessError: Command 'false' returned non-zero exit status 1
 </pre>
 </blockquote>
 </div>
@@ -325,7 +325,7 @@ are compiled and loaded into your Python program.</p>
 
   <div id="last-modified">
     Page last modified
-    Fri, Mar 05 2010.
+    Wed, Mar 10 2010.
 
   </div>
 

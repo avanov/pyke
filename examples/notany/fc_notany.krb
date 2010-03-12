@@ -41,7 +41,7 @@ no_uncle_1
             family.siblings($mother, $uncle2, $gender2, $_)
             check $gender2 == 'brother'
     assert
-        python print $child, "has no uncle"
+        python print($child, "has no uncle")
 
 no_uncle_2
     foreach
@@ -53,7 +53,7 @@ no_uncle_2
             family.siblings($mother, $uncle2, $gender, $_)
             check $gender == 'brother'
     assert
-        python print $child, "has no uncle"
+        python print($child, "has no uncle")
             
 no_aunt_1
     foreach
@@ -63,7 +63,7 @@ no_aunt_1
         notany
             family.siblings($mother, $aunt2, sister, $_)
     assert
-        python print $child, "has no aunt"
+        python print($child, "has no aunt")
             
 no_aunt_2
     foreach
@@ -73,4 +73,4 @@ no_aunt_2
         notany
             family.siblings($mother, $aunt2, sister, $_)
     assert
-        python print $child, "has no aunt"
+        python print($child, "has no aunt")

@@ -43,4 +43,4 @@ collect_cousins
         
         $cousins = tuple(cousins)
     assert
-        python print "%s has %s as cousins" % ($child, $cousins)
+        python print("%s has %s as cousins" % ($child, $cousins))

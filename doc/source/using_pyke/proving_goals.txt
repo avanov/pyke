@@ -83,7 +83,7 @@ often you just want the first answer:
     >>> my_engine.prove_1_goal('bc_related0.father_son(thomas, bogus, $depth)')
     Traceback (most recent call last):
         ...
-    CanNotProve: Can not prove bc_related0.father_son(thomas, bogus, $depth)
+    pyke.knowledge_engine.CanNotProve: Can not prove bc_related0.father_son(thomas, bogus, $depth)
 
 *some_engine*.prove_goal(goal, \*\*args)
     This returns a context manager for a generator yielding 2-tuples, as
@@ -95,7 +95,7 @@ often you just want the first answer:
     >>> with my_engine.prove_goal(
     ...        'bc_related0.father_son(thomas, $son, $depth)') as gen:
     ...     for vars, plan in gen:
-    ...         print vars['son'], vars['depth']
+    ...         print(vars['son'], vars['depth'])
     bruce ()
     david ('grand',)
 
@@ -106,7 +106,7 @@ often you just want the first answer:
     ...        'bc_related0.father_son($father, $son, $depth)',
     ...        father='thomas') as gen:
     ...     for vars, plan in gen:
-    ...         print vars['son'], vars['depth']
+    ...         print(vars['son'], vars['depth'])
     bruce ()
     david ('grand',)
 
@@ -129,7 +129,7 @@ like:
 
     >>> with my_goal.prove(my_engine, father='thomas') as gen:
     ...     for vars, plan in gen:
-    ...         print vars['son'], vars['depth']
+    ...         print(vars['son'], vars['depth'])
     bruce ()
     david ('grand',)
 

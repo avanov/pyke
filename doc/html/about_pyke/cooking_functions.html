@@ -82,8 +82,8 @@ at the start:</p>
 <blockquote>
 <pre class="doctest-block">
 &gt;&gt;&gt; def foo(cooked, standard):
-...     print &quot;foo called with cooked: %s, standard: %s&quot; % \
-...               (cooked, standard)
+...     print(&quot;foo called with cooked: %s, standard: %s&quot; %
+...               (cooked, standard))
 </pre>
 </blockquote>
 <p>Now you can call this function with two parameters:</p>
@@ -151,7 +151,7 @@ subordinate function a cooked parameter:</p>
 <blockquote>
 <pre class="doctest-block">
 &gt;&gt;&gt; def bar(child_fun, a):
-...     print &quot;bar called with:&quot;, a
+...     print(&quot;bar called with:&quot;, a)
 ...     return child_fun(a)
 </pre>
 </blockquote>
@@ -262,7 +262,7 @@ need run the units tests, and rebuild the html documentation.</p>
 
   <div id="last-modified">
     Page last modified
-    Mon, Oct 27 2008.
+    Wed, Mar 25 2009.
 
   </div>
 

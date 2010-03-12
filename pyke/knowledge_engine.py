@@ -25,6 +25,7 @@ from __future__ import with_statement
 import sys
 import types
 import os, os.path
+import imp
 import re
 import contextlib
 
@@ -452,7 +453,7 @@ def _get_target_pkg(target_name):
           os.path.getmtime(path) > os.path.getmtime(compiled_path):
         if debug:
             print >> sys.stderr, "_get_target_pkg doing reload for", target_name
-        module = reload(module)
+        module = imp.reload(module)
     if getattr(module, 'target_pkg_version', None) != pyke.target_pkg_version:
         if debug:
             print >> sys.stderr, "_get_target_pkg doing invalid version for", \

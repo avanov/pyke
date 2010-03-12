@@ -50,8 +50,8 @@ First you define the function that you want to cook with an extra parameter
 at the start:
 
     >>> def foo(cooked, standard):
-    ...     print "foo called with cooked: %s, standard: %s" % \
-    ...               (cooked, standard)
+    ...     print("foo called with cooked: %s, standard: %s" %
+    ...               (cooked, standard))
 
 Now you can call this function with two parameters:
 
@@ -107,7 +107,7 @@ This same technique can be used to cook a function call graph, by making the
 subordinate function a cooked parameter:
 
     >>> def bar(child_fun, a):
-    ...     print "bar called with:", a
+    ...     print("bar called with:", a)
     ...     return child_fun(a)
 
 And now you can cook which function ``bar`` calls the same way you cook any

@@ -37,12 +37,12 @@ transfer2
 withdraw
     use withdraw(($who, $acct_type)) taking (amount)
     with
-        print "withdraw", amount, "from", $who, $acct_type
+        print("withdraw", amount, "from", $who, $acct_type)
 
 deposit
     use deposit(($who, $acct_type)) taking (amount)
     with
-        print "deposit", amount, "to", $who, $acct_type
+        print("deposit", amount, "to", $who, $acct_type)
     
 transfer_ach1
     use transfer_ach($from_acct, ($bank, $who, $acct_type)) taking (amount)
@@ -52,7 +52,7 @@ transfer_ach1
         deposit((central_accts, ach_send_acct))
             $$(amount)
     with
-        print "send", amount, "to bank", $bank, "acct", $who, $acct_type
+        print("send", amount, "to bank", $bank, "acct", $who, $acct_type)
     
 transfer_ach2
     use transfer_ach($from_acct, $to_acct) taking (amount)
@@ -67,4 +67,4 @@ transfer_ach2
 get_ach
     use get_ach(($bank, $who, $acct_type)) taking (amount)
     with
-        print "get", amount, "from bank", $bank, "acct", $who, $acct_type
+        print("get", amount, "from bank", $bank, "acct", $who, $acct_type)

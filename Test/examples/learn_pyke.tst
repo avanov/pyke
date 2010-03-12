@@ -8,7 +8,7 @@
     >>> sys.path.append(new_path)
 
     >>> import run
-    >>> from StringIO import StringIO
+    >>> from io import StringIO
     >>> import sys
 
     >>> sys.stdin = StringIO('8\n2\n2\n13\n')

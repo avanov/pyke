@@ -30,13 +30,13 @@ class regexp(object):
     r'''
         >>> m = regexp(ur'(hi)\s*there', u'the msg', u'the prompt')
         >>> m
-        <regexp u'the msg'[the prompt]/(hi)\s*there/>
+        <regexp 'the msg'[the prompt]/(hi)\s*there/>
         >>> m.msg
-        u'the msg'
+        'the msg'
         >>> m.prompt
-        u'the prompt'
+        'the prompt'
         >>> m.match(u'hithere')
-        u'hi'
+        'hi'
     '''
     def __init__(self, regexp, msg=None, prompt=None):
         self.re = re.compile(regexp, re.UNICODE | re.VERBOSE)
@@ -72,9 +72,9 @@ class qmap(object):
     r'''
         >>> m = qmap(u'y', True)
         >>> m
-        <qmap True = u'y'>
+        <qmap True = 'y'>
         >>> m.test
-        u'y'
+        'y'
         >>> m.value
         True
     '''
@@ -176,29 +176,29 @@ def msg_for(test, type):
     r'''
         >>> msg_for(None, int)
         >>> msg_for(regexp(u'', u'the msg'), int)
-        u'the msg'
+        'the msg'
         >>> msg_for(qmap(44, True), int)
-        u'44'
+        '44'
         >>> msg_for(slice(3, 55), int)
-        u'between 3 and 55'
+        'between 3 and 55'
         >>> msg_for(slice(None, 55), int)
-        u'<= 55'
+        '<= 55'
         >>> msg_for(slice(3, None), int)
-        u'>= 3'
+        '>= 3'
         >>> msg_for(slice(None, None), int)
-        u''
+        ''
         >>> msg_for(slice(3, 55), str)
-        u'between 3 and 55 characters'
+        'between 3 and 55 characters'
         >>> msg_for(slice(None, 55), str)
-        u'<= 55 characters'
+        '<= 55 characters'
         >>> msg_for(slice(3, None), str)
-        u'>= 3 characters'
+        '>= 3 characters'
         >>> msg_for(slice(None, None), str)
-        u''
+        ''
         >>> msg_for((slice(3, 5), True), str)
-        u'between 3 and 5 characters or True'
+        'between 3 and 5 characters or True'
         >>> msg_for(True, str)
-        u'True'
+        'True'
     '''
     if test is None: return None
     if isinstance(test, regexp): return test.msg
@@ -221,31 +221,31 @@ def msg_for(test, type):
 def match_prompt(test, type, format, default=u''):
     r'''
         >>> match_prompt(None, int, u' [%s] ')
-        u''
+        ''
         >>> match_prompt(regexp(u'', u'', u'the prompt'), int, u' [%s] ')
-        u' [the prompt] '
+        ' [the prompt] '
         >>> match_prompt(qmap(44, True), int, u' [%s] ')
-        u' [44] '
+        ' [44] '
         >>> match_prompt(slice(3, 55), int, u' [%s] ')
-        u' [3-55] '
+        ' [3-55] '
         >>> match_prompt(slice(None, 55), int, u' [%s] ')
-        u' [max 55] '
+        ' [max 55] '
         >>> match_prompt(slice(3, None), int, u' [%s] ')
-        u' [min 3] '
+        ' [min 3] '
         >>> match_prompt(slice(None, None), int, u' [%s] ', u'foo')
-        u'foo'
+        'foo'
         >>> match_prompt(slice(3, 55), str, u' [%s] ')
-        u' [len: 3-55] '
+        ' [len: 3-55] '
         >>> match_prompt(slice(None, 55), str, u' [%s] ')
-        u' [len <= 55] '
+        ' [len <= 55] '
         >>> match_prompt(slice(3, None), str, u' [%s] ')
-        u' [len >= 3] '
+        ' [len >= 3] '
         >>> match_prompt(slice(None, None), str, u' [%s] ')
-        u''
+        ''
         >>> match_prompt((slice(3, 5), True), str, u' [%s] ')
-        u' [len: 3-5 or True] '
+        ' [len: 3-5 or True] '
         >>> match_prompt(True, str, u' [%s] ')
-        u' [True] '
+        ' [True] '
     '''
 
     def prompt_body(test, type):
@@ -282,9 +282,9 @@ def match_prompt(test, type, format, default=u''):
 def match(ans, test):
     r'''
         >>> match(u'foobar', None)
-        u'foobar'
+        'foobar'
         >>> match(u'hithere', regexp(ur'(hi)\s*there', u'hi there'))
-        u'hi'
+        'hi'
         >>> match(u'hi mom', regexp(ur'(hi)\s*there', u'hi there'))
         Traceback (most recent call last):
             ...
