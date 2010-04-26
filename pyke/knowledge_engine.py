@@ -25,6 +25,7 @@ from __future__ import with_statement
 import sys
 import types
 import os, os.path
+import imp
 import re
 import contextlib
 
@@ -471,7 +472,7 @@ def _get_target_pkg(target_name):
     if do_reload:
         if debug:
             print >> sys.stderr, "_get_target_pkg doing reload for", target_name
-        module = reload(module)
+        module = imp.reload(module)
         suffix = module.__file__[-4:]
         if suffix in ('.pyc', '.pyo'):
             Compiled_suffix = suffix

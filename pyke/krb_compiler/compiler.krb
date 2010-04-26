@@ -756,4 +756,5 @@ python_block
                        ())
     
 bc_extras
+    import itertools
     from pyke.krb_compiler import helpers

@@ -77,8 +77,8 @@ get_data
     use get_data($starting_tables, $needed_data)
         taking(db_cursor, starting_keys)
     when
-        #python print "get_data: starting_tables: %s" % str($starting_tables)
-        #python print "get_data: needed_data: %s" % str($needed_data)
+        #python print("get_data: starting_tables: %s" % str($starting_tables))
+        #python print("get_data: needed_data: %s" % str($needed_data))
         !parse_needed_data($starting_tables, $needed_data,
                            $multi_plans, $unique_queries)
         !process_unique_queries($unique_queries)
@@ -140,8 +140,8 @@ parse_needed_data
     use parse_needed_data($starting_tables, $needed_data,
                           $multi_plans, $unique_queries)
     when
-        #python print "parse_needed_data(%s, %s, _, _)" % \
-        #                ($starting_tables, $needed_data)
+        #python print("parse_needed_data(%s, %s, _, _)" %
+        #                ($starting_tables, $needed_data))
 
         # Note difference between multi_plans and $multi_plans!
         python multi_plans = []
@@ -331,7 +331,7 @@ unique_table_dups
     when
         # Multiple tables were found!
         # Print error message:
-        python print "duplicate column %s, found in %s" % ($column, $tables)
+        python print("duplicate column %s, found in %s" % ($column, $tables))
         # Then succeed with None to flag the problem...
 
 # lookup_indirect($depth, $column, $starting_tables, $from_clause)
@@ -349,15 +349,15 @@ unique_table_dups
 lookup_indirect
     use lookup_indirect($depth, $column, $starting_tables, $from_clause)
     when
-        #python print "lookup_indirect: "
+        #python print("lookup_indirect: "
         #                "find_at_depth(%s, %s, %s, _, _)" %
-        #                ($depth, $column, $starting_tables)
+        #                ($depth, $column, $starting_tables))
         !find_at_depth($depth, $column, $starting_tables,
                        $got_depth, $from_clauses)
-        #python print "lookup_indirect: "
+        #python print("lookup_indirect: "
         #                "lookup_indirect2(%s, %s, %s, %s, %s, _)" %
         #                ($depth, $column, $starting_tables, $got_depth,
-        #                 $tables)
+        #                 $tables))
         lookup_indirect2($depth, $column, $starting_tables, $got_depth,
                          $from_clauses, $from_clause)
 
@@ -396,8 +396,8 @@ lookup_indirect2_dups
     # If $got_depth is False, let lookup_indirect2 fail silently...
     use lookup_indirect2($_depth, $column, $_starting_tables, True, $froms, $_)
     when
-        python print "duplicate tables for %s: %s" % \
-                         ($column, tuple(from_[0] for from_ in $froms))
+        python print("duplicate tables for %s: %s" %
+                         ($column, tuple(from_[0] for from_ in $froms)))
         check False
 
 # find_at_depth($depth, $column, $starting_tables, $got_depth, $from_clauses)
@@ -450,13 +450,13 @@ process_unique_queries_step
     when
         $select2 = "%s.%s" % (($from[0] if len($from) == 1 else $from[-1][0]),
                               $select)
-        #python print "process_unique_queries_step: " \
-        #             "combine_queries(%s, %s, _, _)" %  \
-        #                (($from, ($select2,), ($key,)), $rest)
+        #python print("process_unique_queries_step: "
+        #             "combine_queries(%s, %s, _, _)" %
+        #                (($from, ($select2,), ($key,)), $rest))
         !combine_queries(($from, ($select2), ($key)), $rest, $combined_query,
                          $uncombined_queries)
-        #python print "process_unique_queries_step: combined_query is: %s" % \
-        #                str($combined_query)
+        #python print("process_unique_queries_step: combined_query is: %s" %
+        #                str($combined_query))
         !run_query($combined_query)
             $$(db_cursor, starting_keys, dict)
         !process_unique_queries($uncombined_queries)
@@ -483,8 +483,8 @@ combine_queries_match_n
                         $uncombined_queries)
     when
         special.claim_goal()
-        #python print "merge_joins(%s, %s, $merged_join)" % 
-        #                ($joins1, $joins2)
+        #python print("merge_joins(%s, %s, $merged_join)" % 
+        #                ($joins1, $joins2))
         !merge_joins($joins1, $joins2, $merged_join)
         $select2 = "%s.%s" % (($table1 if not $joins2 else $joins2[-1][0]),
                               $select_column2)
@@ -543,8 +543,8 @@ run_query
     use run_query((($table, *$joins), $select_columns, $dict_keys))
         taking(db_cursor, starting_keys, dict)
     when
-        #python print "make_from_clause(%s, %s, $from_clause)" % \
-        #                ($table, $joins)
+        #python print("make_from_clause(%s, %s, $from_clause)" %
+        #                ($table, $joins))
         !make_from_clause($table, $joins, $from_clause)
         command_parameters($param, id, $param_fn)
         $sql_command = "select %s\n  from %s\n where %s.id = %s" % \

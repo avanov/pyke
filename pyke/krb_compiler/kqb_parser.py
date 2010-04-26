@@ -234,11 +234,11 @@ class kqb_parser(object):
             >>> f.name = 'StringIO'
             >>> p = kqb_parser(f)
             >>> p.get_block_string()
-            u'line 1 # comment\n   more stuff\nlast line'
+            'line 1 # comment\n   more stuff\nlast line'
             >>> p.column = 4
             >>> p.indent = 4
             >>> p.get_block_string('!', True)
-            u'hanging line 1\n\nline 2\n  indented\nlast line'
+            'hanging line 1\n\nline 2\n  indented\nlast line'
             >>> f = StringIO(r"""
             ...     ! line 1 # comment
             ...          more stuff
@@ -251,7 +251,7 @@ class kqb_parser(object):
             >>> p.get_token('bang')
             ('bang', None)
             >>> p.get_block_string(hanging=True)
-            u'line 1 # comment\n   more stuff\nlast line'
+            'line 1 # comment\n   more stuff\nlast line'
         '''
         if hanging:
             indent, more_chars = \
@@ -391,10 +391,10 @@ class kqb_parser(object):
             ...         ! = bob
             ... next
             ... """)
-            1: u'hi mom\nhow are you?'
-            'bob': u'yep this is bob'
-            44: u'nope, this is just 44'
-            (1, 'bob', 44) ! u'Just reward!'
+            1: 'hi mom\nhow are you?'
+            'bob': 'yep this is bob'
+            44: 'nope, this is just 44'
+            (1, 'bob', 44) ! 'Just reward!'
         '''
         if self.column >= len(self.line):
             self.readline()
@@ -452,9 +452,9 @@ class kqb_parser(object):
             ...     3-5! nope, this is just 44
             ... next
             ... """)
-            'bob' ! u'yep this is bob'
-            1 ! u'hi mom\nhow are you?\n! Just reward!'
-            slice(3, 5, None) ! u'nope, this is just 44'
+            'bob' ! 'yep this is bob'
+            1 ! 'hi mom\nhow are you?\n! Just reward!'
+            slice(3, 5, None) ! 'nope, this is just 44'
         '''
         if self.column >= len(self.line):
             self.readline()
@@ -500,8 +500,8 @@ class kqb_parser(object):
             ...         3: third
             ...
             ... """)
-            <question question1($ans): $ans = <yn: u'This is the question?'>>
-            <question question2($ans): $ans = <select_1(1: 2: 3:): u'This is the second question?'>>
+            <question question1($ans): $ans = <yn: 'This is the question?'>>
+            <question question2($ans): $ans = <select_1(1: 2: 3:): 'This is the second question?'>>
         '''
         self.readline()
         while not self.eof:

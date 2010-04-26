@@ -114,7 +114,7 @@ found:</p>
 &gt;&gt;&gt; my_engine.prove_1_goal('bc_related0.father_son(thomas, bogus, $depth)')
 Traceback (most recent call last):
     ...
-CanNotProve: Can not prove bc_related0.father_son(thomas, bogus, $depth)
+pyke.knowledge_engine.CanNotProve: Can not prove bc_related0.father_son(thomas, bogus, $depth)
 </pre>
 </blockquote>
 <dl class="docutils">
@@ -129,7 +129,7 @@ proof is found:</p>
 &gt;&gt;&gt; with my_engine.prove_goal(
 ...        'bc_related0.father_son(thomas, $son, $depth)') as gen:
 ...     for vars, plan in gen:
-...         print vars['son'], vars['depth']
+...         print(vars['son'], vars['depth'])
 bruce ()
 david ('grand',)
 </pre>
@@ -140,7 +140,7 @@ specified with keyword arguments:</p>
 ...        'bc_related0.father_son($father, $son, $depth)',
 ...        father='thomas') as gen:
 ...     for vars, plan in gen:
-...         print vars['son'], vars['depth']
+...         print(vars['son'], vars['depth'])
 bruce ()
 david ('grand',)
 </pre>
@@ -169,7 +169,7 @@ like:</p>
 <pre class="doctest-block">
 &gt;&gt;&gt; with my_goal.prove(my_engine, father='thomas') as gen:
 ...     for vars, plan in gen:
-...         print vars['son'], vars['depth']
+...         print(vars['son'], vars['depth'])
 bruce ()
 david ('grand',)
 </pre>
@@ -214,7 +214,7 @@ from your .krb files.</p>
 
   <div id="last-modified">
     Page last modified
-    Tue, Mar 09 2010.
+    Wed, Mar 10 2010.
 
   </div>
 

@@ -276,7 +276,7 @@ variables as arguments:
     >>> from __future__ import with_statement
     >>> with engine.prove_goal('bc_related.uncle_nephew(fred, $nephew, $distance)') as gen:
     ...     for vars, no_plan in gen:
-    ...         print vars['nephew'], vars['distance']
+    ...         print(vars['nephew'], vars['distance'])
     david ()
 
 

@@ -33,10 +33,10 @@
                     val = page['crumb']
                     link = page['target']
                     if page['title']:
-                        print '<div class="title-nav"><a href="%s">%s</a></div><div class="nav-branch">' % \
-                              (link, val)
+                        print('<div class="title-nav"><a href="%s">%s</a></div><div class="nav-branch">' %
+                              (link, val))
                     else:
-                        print '<div class="normal-nav"><a href="%s">%s</a></div>' % (link, val)
+                        print('<div class="normal-nav"><a href="%s">%s</a></div>' % (link, val))
               #>
             </div>
             <div id="icons">
@@ -95,11 +95,11 @@
     <# 
        import datetime
        import re
-       print datetime.date(*(int(x)
+       print(datetime.date(*(int(x)
                              for x in re.search(r'([0-9]{4})-([0-9]{1,2})-([0-9]{1,2})',
                                                 filedate)
                                         .groups())
-                          ).strftime("%a, %b %d %Y") + '.'
+                          ).strftime("%a, %b %d %Y") + '.')
     #>
   </div>
 

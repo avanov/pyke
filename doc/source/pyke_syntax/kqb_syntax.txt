@@ -421,7 +421,7 @@ Asking ``stupid_question`` and answering "y" to it::
 
     >>> engine = knowledge_engine.engine(__file__)
 
-    >>> from StringIO import StringIO
+    >>> from io import StringIO
     >>> import sys
     >>> class echo(object):
     ...     def __init__(self, f): self.f = f
