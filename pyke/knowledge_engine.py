@@ -28,7 +28,7 @@ import os, os.path
 import re
 import contextlib
 
-if sys.version_info[0] < 3:
+if sys.version_info[0:2] == (2, 5):
     import itertools
     class chain(object):
         old_chain = itertools.chain

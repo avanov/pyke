@@ -130,10 +130,6 @@ Python functions between subgoal proofs.
         return iter(it).next()
       File "...rule_base.py", line 50, in next
         return self.iterator.next()
-      File "...knowledge_engine.py", line 41, in from_iterable
-        for x in iterable: yield x
-      File "...knowledge_engine.py", line 41, in from_iterable
-        for x in iterable: yield x
       File "...error_test.krb", line 26, in rule1
         goal2()
       File "...error_test.krb", line 31, in rule2
